@@ -24,7 +24,6 @@ export const getServerSideProps = async ({ req, res }) => {
 
 export default function Home() {
   const [open, setOpen] = useState(true);
-
   const checkAuthentication = async () => {
     try {
       const token = getCookie('authorization');
@@ -34,7 +33,6 @@ export default function Home() {
     }
   };
 
-  
   useEffect(() => {
     checkAuthentication();
     const timer = setTimeout(() => {
