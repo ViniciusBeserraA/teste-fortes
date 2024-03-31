@@ -1,0 +1,21 @@
+.background{
+    background-color: #E4E4E4;
+    color: #D60014;
+}
+.button{
+    width: 41ch;
+    margin: 10px;
+    background-color: #D60014;
+    justify-content: center;
+    font-weight: bold;
+  }
+  .button:hover {
+    background-color: #8b0000;
+  }
+
+  .modalContainer {
+    position: fixed;
+    top: 16px;
+    right: 145px;
+  }
+  
