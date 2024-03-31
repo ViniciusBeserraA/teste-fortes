@@ -36,8 +36,14 @@ export function updateUser(userId, updatedUserData) {
   });
 }
 
-export function removeUser(userId) {
+export function remove(userId) {
+  const removedUser = users.find(user => user.id === userId);
   users = users.filter(user => user.id !== userId);
+  if (removedUser) {
+    return 'Usuário ' + removedUser.user + ' removido com sucesso';
+  } else {
+    throw new Error('Usuário não encontrado');
+  }
 }
 
 export function listar() {
