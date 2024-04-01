@@ -27,13 +27,9 @@ export function verifyToken(token){
   return readToken(token)
 }
 
-export function updateUser(userId, updatedUserData) {
-  users = users.map(user => {
-    if (user.id === userId) {
-      return { ...user, ...updatedUserData };
-    }
-    return user;
-  });
+export function update(userId, userData) {
+  const users = listar();
+  return users.map(user => (user.id === userId ? { ...user, ...userData } : user));
 }
 
 export function remove(userId) {
@@ -47,7 +43,6 @@ export function remove(userId) {
 }
 
 export function listar() {
-  console.log("Lista de usuários atual: ", users)
   return users;
 }
 
@@ -58,8 +53,6 @@ export function cadastro(body){
    const newUser = {id: users.length + 1,user: body.user,email: body.email, password: body.password};
 
    users.push(newUser)
-   console.log("Cadastro efetuado com sucesso!", newUser);
-   console.log("Lista pós cadastr!", users);
    const token = createToken(body)
    return token;
 }

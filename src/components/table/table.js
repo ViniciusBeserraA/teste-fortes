@@ -1,14 +1,18 @@
   import React, { useState, useEffect  } from 'react';
   import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, Modal, Box, Typography, Tooltip } from '@mui/material';
-  import { listar, removeUser  } from '../../../services/user';
+  import { listar  } from '../../../services/user';
   import styles from './table.module.css';
   import AddIcon from '@mui/icons-material/Add';
   import EditIcon from '@mui/icons-material/Edit';
   import DeleteIcon from '@mui/icons-material/Delete';
+  import LogoutButton from '../Button/LogoutButton';
 
   export default function UserTable() {
-    const [open, setOpen] = useState(false); 
-    const [users, setUsers] = useState(listar()); 
+   
+    const [openCadastro, setOpenCadastro] = useState(false); 
+    const [openAlteracao, setOpenAlteracao] = useState(false); 
+    const [users, setUsers] = useState(listar());
+    const [editUserId, setEditUserId] = useState(null); 
     const [formData, setFormData] = useState({
       user: '',
       email: '',
@@ -18,7 +22,10 @@
     const handleFormCadastroEdit = (event, name) => { 
       setFormData({...formData, [name]: event.target.value})
     }
-
+    const handleFormUpdateEdit = (event, name) => { 
+      setFormData({...formData, [name]: event.target.value})
+    }
+   
     const handleGetList = async() => {
       try {
         const response = await fetch('../../api/users/users',{
@@ -62,12 +69,57 @@
             password: formData.password
           };
           setUsers([...users, newUser]);
-          handleClose();
+          handleCadastroClose();
         } else {
           console.error('Erro ao cadastrar usuário:', json);
         }
       } catch (error) {
         throw error;
+      }
+    };
+
+    const handleEdit = (user) => {
+      setEditUserId(user.id);
+      handleAlteracaoOpen();  
+    };
+
+    const handleFormUpdateUser = async (event) => {
+      try {
+        event.preventDefault();
+        if (!formData.user || !formData.email || !formData.password) {
+          console.error('Por favor, preencha todos os campos obrigatórios.');
+          return;
+        }
+    
+        const response = await fetch('../../api/users/update', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            userId: editUserId,
+            userData: {
+              user: formData.user,
+              email: formData.email,
+              password: formData.password
+            }
+          })
+        });
+    
+        if (response.ok) {
+          const updatedUser = {
+            id: editUserId,
+            user: formData.user,
+            email: formData.email,
+            password: formData.password
+          };
+          setUsers(users.map(user => (user.id === editUserId ? updatedUser : user)));
+          handleAlteracaoClose();
+        } else {
+          console.error('Erro ao atualizar usuário:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Erro ao atualizar usuário:', error);
       }
     };
 
@@ -91,18 +143,21 @@
       }
     }
 
-    const handleOpen = () => {
-      setOpen(true);
+    const handleCadastroOpen = () => {
+      setOpenCadastro(true);
     };
 
-    const handleClose = () => {
-      setOpen(false);
+    const handleCadastroClose = () => {
+      setOpenCadastro(false);
     };
 
-    const handleEdit = (userId) => {
-    
+    const handleAlteracaoOpen = () => {
+      setOpenAlteracao(true);
     };
 
+    const handleAlteracaoClose = () => {
+      setOpenAlteracao(false);
+    };
 
     const loadUsers = async () => {
       try {
@@ -117,18 +172,22 @@
       loadUsers();
     }, []);
 
+    
     return (
       <div className={styles.table}>
         <h1>Listagem de Usuários</h1>
         
-        <Button className={styles.button} onClick={handleOpen}>
-          <AddIcon />
-          Inserir Usuário
-        </Button>
+        <div className={styles.buttonsContainer}>
+          <Button className={styles.button} onClick={handleCadastroOpen}>
+            <AddIcon />
+            Inserir Usuário
+          </Button>
+          <LogoutButton />
+        </div>
 
         <Modal
-          open={open}
-          onClose={handleClose}
+          open={openCadastro}
+          onClose={handleCadastroClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
@@ -142,6 +201,27 @@
               <TextField type="email" label="Email" variant="outlined" fullWidth margin="normal" required value={formData.email} onChange={(e) => handleFormCadastroEdit(e, 'email')}/>
               <TextField type="password" label="Senha" variant="outlined" fullWidth margin="normal" required value={formData.password} onChange={(e) => handleFormCadastroEdit(e, 'password')}/>
                 <Button type="submit" variant="contained" color="primary">Cadastrar</Button>
+              </form>
+            </Typography>
+          </Box>
+        </Modal>
+
+        <Modal
+          open={openAlteracao}
+          onClose={handleAlteracaoClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Editar Usuário
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              <form onSubmit={handleFormUpdateUser}>
+              <TextField type="text" label="Usuário" variant="outlined" fullWidth margin="normal" required value={formData.user} onChange={(e) => handleFormUpdateEdit(e, 'user')}/>
+              <TextField type="email" label="Email" variant="outlined" fullWidth margin="normal" required value={formData.email} onChange={(e) => handleFormUpdateEdit(e, 'email')}/>
+              <TextField type="password" label="Senha" variant="outlined" fullWidth margin="normal" required value={formData.password} onChange={(e) => handleFormUpdateEdit(e, 'password')}/>
+                <Button type="submit" variant="contained" color="primary">Editar usuário</Button>
               </form>
             </Typography>
           </Box>
@@ -167,11 +247,11 @@
                   <TableCell>{user.password}</TableCell>
                   <TableCell>
                     <Tooltip title="Editar">
-                      <Button onClick={() => handleEdit(user.id)}>
+                      <Button onClick={() => handleEdit(user)}>
                         <EditIcon sx={{ color: 'orange' }} />
                       </Button>
                     </Tooltip>
-                    <Tooltip title="Excluir">
+                    <Tooltip title="Excluir"> 
                       <Button onClick={() => handleRemoveUser(user.id)}>
                         <DeleteIcon sx={{ color: 'red' }} />
                       </Button>
