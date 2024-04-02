@@ -34,17 +34,19 @@ const loadUsers = async () => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">{"Confirmar Exclusão"}</DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
+      <DialogTitle id="alert-dialog-title" sx={{ backgroundColor: '#f44336', color: 'white' }}>
+        {"Confirmar Exclusão"}
+      </DialogTitle>
+      <DialogContent sx={{ backgroundColor: '#f44336', color: 'white' }}>
+        <DialogContentText id="alert-dialog-description" sx={{ backgroundColor: '#f44336', color: 'white' }}>
           Tem certeza de que deseja excluir este usuário?
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={close} color="primary">
+      <DialogActions sx={{ backgroundColor: '#f44336', color: 'white' }}>
+        <Button onClick={close} sx={{ color: 'white' }}>
           Cancelar
         </Button>
-        <Button onClick={handleConfirm} color="primary" autoFocus>
+        <Button onClick={handleConfirm} autoFocus sx={{ color: 'white' }}>
           Confirmar
         </Button>
       </DialogActions>
