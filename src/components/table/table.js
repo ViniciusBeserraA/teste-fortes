@@ -1,5 +1,5 @@
   import React, { useState, useEffect  } from 'react';
-  import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, Modal, Box, Typography, Tooltip } from '@mui/material';
+  import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, Modal, Box, Typography, Tooltip } from '@mui/material';
   import { listar  } from '../../../services/user';
   import styles from './table.module.css';
   import AddIcon from '@mui/icons-material/Add';
@@ -13,11 +13,27 @@
     const [openAlteracao, setOpenAlteracao] = useState(false); 
     const [users, setUsers] = useState(listar());
     const [editUserId, setEditUserId] = useState(null); 
+    const [userIdToDelete, setUserIdToDelete] = useState(null);
+    const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
     const [formData, setFormData] = useState({
       user: '',
       email: '',
       password: ''
     })
+  
+    const handleEdit = (user) => {
+      setEditUserId(user.id);
+      handleAlteracaoOpen();  
+    };
+
+  const handleOpenConfirmationModal = (userId) => {
+    setUserIdToDelete(userId);
+    setOpenConfirmationModal(true);
+  };
+
+  const handleCloseConfirmationModal = () => {
+    setOpenConfirmationModal(false);
+  };
 
     const handleFormCadastroEdit = (event, name) => { 
       setFormData({...formData, [name]: event.target.value})
@@ -78,10 +94,6 @@
       }
     };
 
-    const handleEdit = (user) => {
-      setEditUserId(user.id);
-      handleAlteracaoOpen();  
-    };
 
     const handleFormUpdateUser = async (event) => {
       try {
@@ -97,12 +109,10 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            userId: editUserId,
-            userData: {
+              id: editUserId,
               user: formData.user,
               email: formData.email,
               password: formData.password
-            }
           })
         });
     
@@ -123,20 +133,21 @@
       }
     };
 
-    const handleRemoveUser = async (userId) => {
+    const handleRemoveUser = async () => {
       try {
         const response = await fetch('../../api/users/remove', {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ userId })
+          body: JSON.stringify({ userIdToDelete })
         });
         if (!response.ok) {
           console.log('Erro ao remover usuário');
         }
         const data = await response.json();
         loadUsers();
+        handleCloseConfirmationModal();
         return data;
       } catch (error) {
         throw error;
@@ -227,6 +238,29 @@
           </Box>
         </Modal>
 
+
+        <Dialog
+        open={openConfirmationModal}
+        onClose={handleCloseConfirmationModal}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Confirmar Exclusão"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Tem certeza de que deseja excluir este usuário?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseConfirmationModal} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleRemoveUser} color="primary" autoFocus>
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
         <TableContainer component={Paper} style={{ width: '80%' }}>
           <Table>
             <TableHead>
@@ -252,7 +286,7 @@
                       </Button>
                     </Tooltip>
                     <Tooltip title="Excluir"> 
-                      <Button onClick={() => handleRemoveUser(user.id)}>
+                      <Button onClick={() => handleOpenConfirmationModal(user.id)}>
                         <DeleteIcon sx={{ color: 'red' }} />
                       </Button>
                     </Tooltip>

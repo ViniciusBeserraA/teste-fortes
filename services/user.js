@@ -27,14 +27,19 @@ export function verifyToken(token){
   return readToken(token)
 }
 
-export function update(userId, userData) {
-  const users = listar();
-  return users.map(user => (user.id === userId ? { ...user, ...userData } : user));
+export function update(userData) {
+  try {
+    const users = listar();
+    return users.map(user => (user.id === userData.id ? { ...user, ...userData } : user));
+  } catch (error) {
+    console.error('Erro ao atualizar usuário:', error);
+    throw error; 
+  }
 }
 
-export function remove(userId) {
-  const removedUser = users.find(user => user.id === userId);
-  users = users.filter(user => user.id !== userId);
+export function remove(userIdToDelete) {
+  const removedUser = users.find(user => user.id === userIdToDelete);
+  users = users.filter(user => user.id !== userIdToDelete);
   if (removedUser) {
     return 'Usuário ' + removedUser.user + ' removido com sucesso';
   } else {
