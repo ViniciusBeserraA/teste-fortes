@@ -22,6 +22,28 @@
     font-weight: bold;
     color: white;
   }
+
+  .buttonForm{
+    font-size: 13px;
+    display: flex;
+    width: 25ch;
+    top: 10px;
+    left: 22%;
+    background-color: #D60014;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+  }
+
   .button:hover {
     background-color: #8b0000;
+  }
+  .buttonForm:hover {
+    background-color: #8b0000;
+  }
+
+  .form{
+    color: #D60014;
+    text-align: center;
+    font-family: 'Arial';
   }

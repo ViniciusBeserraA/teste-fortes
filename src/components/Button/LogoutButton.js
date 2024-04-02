@@ -12,7 +12,7 @@ function LogoutButton() {
   };
 
   return (
-    <Button className={styles.button} onClick={handleLogout} width={'8%'}>
+    <Button className={styles.button} onClick={handleLogout}>
           <LogoutIcon />
           Logoff
       </Button>
