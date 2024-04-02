@@ -100,6 +100,7 @@
                 <TableCell>Email</TableCell>
                 <TableCell>Usuário</TableCell>
                 <TableCell>Senha</TableCell>
+                <TableCell>Data de registro</TableCell>
                 <TableCell>Ações</TableCell>
               </TableRow>
             </TableHead>
@@ -110,6 +111,7 @@
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.user}</TableCell>
                   <TableCell>{user.password}</TableCell>
+                  <TableCell>{user.registerDate}</TableCell>
                   <TableCell>
                     <Tooltip title="Editar">
                       <Button onClick={() => handleEdit(user.id)}>

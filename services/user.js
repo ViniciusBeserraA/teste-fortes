@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 let users = [
-{id: 1, user:"Fortes", email:"fortes@gmail.com", password:"123"},
+{id: 1, user:"Fortes", email:"fortes@gmail.com", password:"123", registerDate: "01/04/2024"},
 ];
 
 const SECRET = process.env.JWT_SECRET
@@ -74,7 +74,7 @@ export function cadastro(body){
    const userExists = users.some(user => user.email === body.email || user.user === body.user);
    if(userExists) throw new Error('E-mail ou usuário já possui cadastro')
    
-   const newUser = {id: users.length + 1,user: body.user,email: body.email, password: body.password};
+   const newUser = {id: users.length + 1,user: body.user,email: body.email, password: body.password, registerDate: body.registerDate};
 
    users.push(newUser)
    const token = createToken(body)

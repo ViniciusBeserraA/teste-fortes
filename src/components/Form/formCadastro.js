@@ -4,15 +4,18 @@ import styles from '../table/table.module.css';
 import useHandles from '../handles/useHandles';
 import { listar } from '../../../services/user';
 import ModalAlert from '../modal/modalAlert'; 
+import { getCurrentDateFormatted } from '.././../utils/dateUtils';
 
 function FormCadastro({ open, onClose }) {
  
   const [users, setUsers] = useState(listar());
   const { handleFormCadastro, handleGetList } = useHandles();
+  const registerDate = getCurrentDateFormatted();
   const [formData, setFormData] = useState({
     user: '',
     email: '',
-    password: ''
+    password: '',
+    registerDate: registerDate
   });
 
   const [alertOpen, setAlertOpen] = useState(false);

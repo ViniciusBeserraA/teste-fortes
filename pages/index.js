@@ -47,6 +47,7 @@ export default function Home() {
   };
 
   return (
+    
     <div className={styles.background}>
       <UserTable/>
     <Slide direction="down" in={open} mountOnEnter unmountOnExit>
