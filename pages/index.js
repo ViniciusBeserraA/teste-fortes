@@ -51,7 +51,7 @@ export default function Home() {
       <UserTable/>
     <Slide direction="down" in={open} mountOnEnter unmountOnExit>
       <Alert className={styles.modalContainer} severity="success" onClose={handleClose}>
-        Login realizado com sucesso!
+        Usuário autenticado com sucesso!
       </Alert>
     </Slide>
     </div>

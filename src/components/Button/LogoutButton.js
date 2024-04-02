@@ -14,7 +14,7 @@ function LogoutButton() {
   return (
     <Button className={styles.button} onClick={handleLogout}>
           <LogoutIcon />
-          Logoff
+          Sair
       </Button>
   );
 }

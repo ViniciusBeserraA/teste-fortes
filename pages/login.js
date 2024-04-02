@@ -1,5 +1,5 @@
   import styles from "../styles/Login.module.css"
-  import { Card, CardContent, TextField, CardMedia, Button} from '@mui/material';
+  import { Typography, Card, CardContent, TextField, CardMedia, Button} from '@mui/material';
   import { useState } from 'react'
   import { setCookie } from 'cookies-next'
   import { useRouter } from 'next/router'
@@ -49,6 +49,9 @@
                 className={styles.img}
               />
             </CardMedia>
+            <Typography className={styles.title} id="modal-modal-title" variant="h7" component="h3">
+              Sistema de Usuários
+            </Typography>
             <CardContent className={styles.cardMedia}>
               <div>
               <form className={styles.form} onSubmit={handleFormLogin}>
@@ -76,7 +79,7 @@
                 >
                   Acessar
                 </Button>
-                {error && <p>{error}</p>}
+                {error && <p className={styles.p}>{error}</p>}
                 </form>
               </div>
             </CardContent>
