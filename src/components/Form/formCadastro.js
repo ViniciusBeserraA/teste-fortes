@@ -35,14 +35,12 @@ function FormCadastro({ open, onClose }) {
     try {
       const userExists = users.some(user => user.email === formData.email);
       if (userExists) {
-        console.log('chegou aqui------------------->')
         setAlertOpen(true);
         return false;
       }
       
       const success = await handleFormCadastro(formData);
       if (success) {
-        console.log('Usuário inserido com sucesso!');
         onClose(); 
         loadUsers();
         window.location.reload();

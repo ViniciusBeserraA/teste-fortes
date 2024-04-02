@@ -16,15 +16,11 @@ const loadUsers = async () => {
 
     const handleConfirm = async () => {
         try {
-          console.log('id para remover', id)
           const success = await handleRemoveUser(id);
           if (success) {
-            console.log('Usuário editado com sucesso!');
             close(); 
             loadUsers();
             window.location.reload();
-          } else {
-            console.error('Erro ao remover usuário.');
           }
         } catch (error) {
           console.error('Erro ao remover usuário:', error);

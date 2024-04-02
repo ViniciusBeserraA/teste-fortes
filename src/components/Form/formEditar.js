@@ -33,7 +33,6 @@ function FormEditar({ id, openAlteracao, handleAlteracaoClose }) {
     try {
       const success = await handleFormUpdateUser(formData);
       if (success) {
-        console.log('Usuário editado com sucesso!');
         handleAlteracaoClose(); 
         loadUsers();
         window.location.reload();

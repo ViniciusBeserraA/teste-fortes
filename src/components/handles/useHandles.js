@@ -101,7 +101,6 @@ const useHandles = () => {
         body: JSON.stringify({ id: userIdToDelete })
       });
       if (!response.ok) {
-        console.log('Erro ao remover usuário');
         return false;
       }
       setUsers(users.filter(user => user.id !== userIdToDelete));
