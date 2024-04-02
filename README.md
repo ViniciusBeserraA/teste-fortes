@@ -17,6 +17,8 @@ npm run dev
 # or
 yarn dev
 ```
+Após executar o projeto, abrir [http://localhost:3000](http://localhost:3000) no seu navegador de preferência.
+
 Esse projeto foi desenvolvido com as seguintes tecnologias:
 - ReactJs, utilizando o framework NextJs
 - Javascript para o front-end, sem a necessidade de conexão a banco de dados
@@ -24,5 +26,5 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - ThunderClient (Atalho VSCode), para teste dos endpoints
 - Jwt (JsonWebToken) para criação de token de autenticação.
 
-Abrir [http://localhost:3000](http://localhost:3000) no seu navegador de preferência.
+
 
