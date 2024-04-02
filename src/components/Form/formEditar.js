@@ -5,7 +5,6 @@ import useHandles from '../handles/useHandles';
 import { listar } from '../../../services/user';
 
 function FormEditar({ editUserId, open, onClose }) { 
-
   const [users, setUsers] = useState(listar());
   const { handleFormUpdateUser, handleGetList } = useHandles();
   const [formData, setFormData] = useState({
