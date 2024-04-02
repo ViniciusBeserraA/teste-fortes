@@ -27,10 +27,31 @@ export function verifyToken(token){
   return readToken(token)
 }
 
-export function update(userData) {
+export function saveList(updatedUser) {
   try {
-    const users = listar();
-    return users.map(user => (user.id === userData.id ? { ...user, ...userData } : user));
+    const index = users.findIndex(user => user.id === updatedUser.id);
+    if (index !== -1) {
+      users[index] = updatedUser;
+    }
+  } catch (error) {
+    console.error('Erro ao salvar lista de usuários:', error);
+    throw error;
+  }
+}
+
+export function update(userData) {
+  console.log('registro a ser atualizado: ', userData)
+  try {
+    let users = listar();
+    const index = users.findIndex(user => user.id === userData.id);
+    if (index !== -1) {
+      users[index] = { ...users[index], ...userData };
+      saveList(users);
+      return users[index];
+    } else {
+      console.error('Usuário não encontrado:', userData.id);
+      return null;
+    }
   } catch (error) {
     console.error('Erro ao atualizar usuário:', error);
     throw error; 
