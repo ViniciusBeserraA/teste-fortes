@@ -40,7 +40,6 @@ export function saveList(updatedUser) {
 }
 
 export function update(userData) {
-  console.log('registro a ser atualizado: ', userData)
   try {
     let users = listar();
     const index = users.findIndex(user => user.id === userData.id);
@@ -58,9 +57,9 @@ export function update(userData) {
   }
 }
 
-export function remove(userIdToDelete) {
-  const removedUser = users.find(user => user.id === userIdToDelete);
-  users = users.filter(user => user.id !== userIdToDelete);
+export function remove(id) {
+  const removedUser = users.find(user => user.id === id);
+  users = users.filter(user => user.id !== id);
   if (removedUser) {
     return 'Usuário ' + removedUser.user + ' removido com sucesso';
   } else {
