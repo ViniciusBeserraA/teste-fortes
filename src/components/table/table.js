@@ -83,8 +83,8 @@
 
         {openAlteracao && (
         <FormEditar
-          editUserId={editUserId}
-          open={openAlteracao} onClose={handleAlteracaoClose} 
+          id={editUserId}
+          openAlteracao={openAlteracao} handleAlteracaoClose={handleAlteracaoClose} 
         />
       )}
 

@@ -4,11 +4,12 @@ import styles from '../table/table.module.css';
 import useHandles from '../handles/useHandles';
 import { listar } from '../../../services/user';
 
-function FormEditar({ openAlteracao, handleAlteracaoClose }) {
+function FormEditar({ id, openAlteracao, handleAlteracaoClose }) {
 
   const [users, setUsers] = useState(listar());
   const { handleFormUpdateUser, handleGetList } = useHandles();
   const [formData, setFormData] = useState({
+    id: id,
     user: '',
     email: '',
     password: ''
