@@ -4,16 +4,15 @@ import styles from '../table/table.module.css';
 import useHandles from '../handles/useHandles';
 import { listar } from '../../../services/user';
 
-function FormEditar({ editUserId, open, onClose }) { 
+function FormEditar({ openAlteracao, handleAlteracaoClose }) {
+
   const [users, setUsers] = useState(listar());
   const { handleFormUpdateUser, handleGetList } = useHandles();
   const [formData, setFormData] = useState({
-    id: editUserId ?? '',
     user: '',
     email: '',
     password: ''
   });
-
 
   const loadUsers = async () => {
     try {
@@ -31,11 +30,10 @@ function FormEditar({ editUserId, open, onClose }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      console.log('dados do formData para handleEditar', formData);
       const success = await handleFormUpdateUser(formData);
       if (success) {
         console.log('Usuário editado com sucesso!');
-        onClose(); 
+        handleAlteracaoClose(); 
         loadUsers();
         window.location.reload();
       } else {
@@ -48,8 +46,8 @@ function FormEditar({ editUserId, open, onClose }) {
 
   return (
     <Modal
-          open={open}
-          onClose={onClose}
+          open={openAlteracao}
+          onClose={handleAlteracaoClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
