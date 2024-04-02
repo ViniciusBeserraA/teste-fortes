@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 
 let users = [
 {id: 1, user:"Fortes", email:"fortes@gmail.com", password:"123"},
-{id: 2, user:"Manu", email:"Manu@gmail.com", password:"1234"},
 ];
 
 const SECRET = process.env.JWT_SECRET
