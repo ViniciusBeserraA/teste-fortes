@@ -22,6 +22,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - Javascript para o front-end, sem a necessidade de conexão a banco de dados
 - MaterialUI para o desenvolvimento dos estilos e componentes utilizados.
 - ThunderClient (Atalho VSCode), para teste dos endpoints
+- Jwt (JsonWebToken) para criação de token de autenticação.
 
 Abrir [http://localhost:3000](http://localhost:3000) no seu navegador de preferência.
 
